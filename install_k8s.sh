@@ -41,7 +41,8 @@ EOF
 
 sudo dnf install -y yum-utils device-mapper-persistent-data lvm2
 sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
-sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+#sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo dnf -y install docker-ce-cli containerd.io 
 
 
 
@@ -67,9 +68,7 @@ sudo systemctl enable kubelet
 sudo kubeadm config images pull
 
 
-sudo kubeadm init \
-  --pod-network-cidr=10.192.0.0/16 \
-  --control-plane-endpoint=$(hostname -f)
+sudo kubeadm init --pod-network-cidr=10.192.0.0/16  --control-plane-endpoint=$(hostname -f)
 
 
 mkdir -p $HOME/.kube

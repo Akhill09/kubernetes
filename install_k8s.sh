@@ -19,16 +19,16 @@ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 sudo swapoff -a
 
 
-sudo tee /etc/yum.repos.d/kubernetes.repo<<EOF
+
+# This overwrites any existing configuration in /etc/yum.repos.d/kubernetes.repo
+cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
-baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+baseurl=https://pkgs.k8s.io/core:/stable:/v1.33/rpm/
 enabled=1
 gpgcheck=1
-repo_gpgcheck=1
-gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+gpgkey=https://pkgs.k8s.io/core:/stable:/v1.33/rpm/repodata/repomd.xml.key
 EOF
-
 
 sudo dnf -y install epel-release vim git curl wget kubelet kubeadm kubectl --disableexcludes=kubernetes
 
@@ -39,7 +39,7 @@ br_netfilter
 EOF
 
 
-sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+sudo dnf install -y yum-utils device-mapper-persistent-data lvm2
 sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
 sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 

@@ -38,6 +38,11 @@ overlay
 br_netfilter
 EOF
 
+# Allow following ports in the firewall.
+
+sudo firewall-cmd --permanent --add-port={6443,2379,2380,10250,10251,10252,10257,10259,179}/tcp
+sudo firewall-cmd --permanent --add-port=4789/udp
+sudo firewall-cmd --reload
 
 sudo dnf install -y yum-utils device-mapper-persistent-data lvm2
 sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
